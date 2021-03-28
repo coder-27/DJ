@@ -32,58 +32,35 @@ function setup(){
     poseNet.on('pose', gotPoses);
 }
 
-function draw(){
-    image(video, 0, 0, 600, 450);
 
-    song1_status = song1.isPlaying();
-    song2_status = song2.isPlaying();
-
-    if(scoreleftWrist>0.2)
-    {
-        InNumberleftWristY = Number(leftWristY);
-        remove_decimals = floor(InNumberleftWristY);
-        
-        song2.pause();
-        
-        if(song1_status = false)
-        {
-            song1.play();
-            document.getElementById("song").innerHTML = "Song = " + song1_name;
-        }
-    }
-
-    if(scorerightWrist>0.2){
-        song1.pause();
-
-        if(song2_status = false){
-            song2.play();
-            document.getElementById("song").innerHTML = "Song = " + song2_name; 
-        }
-    }
-}
-    
 
 function modelLoaded(){
     console.log('PoseNet is Initialized!');
 }
 
-function gotPoses(results){
-    if(results.length>0){
-        
-        console.log(results);
-        scoreleftWrist = results[0].pose.keypoints[9].score;
-        scorerightWrist = results[0].pose.keypoints[10].score;
 
+
+function draw()
+{
+    image(video, 0, 0, 600, 450);
+    fill('#FF0000');
+    stroke('#FF0000');
+}
+function gotPoses(results)
+{
+    if (results.length > 0)
+    {
+
+        console.log(results);
+        scoreRightWrist = results[0].pose.keypoints[10].score;
+        scoreLeftWrist = results[0].pose.keypoints[9].score;
+        console.log("the value of scoreRightWrist is " +scoreRightWrist+ "and the value of scoreLeftWrist is " + scoreleftWrist);
         leftWristX = results[0].pose.leftWrist.x;
         leftWristY = results[0].pose.leftWrist.y;
-        leftX = leftWristX.toFixed(3);
-        leftY = leftWristY.toFixed(3);
-        console.log("leftWristX = " + leftX + " Left Wrist Y = " + leftY);
+        console.log("the value of leftWristX is " + leftWristX + "and the value of leftWristY is " + leftWristY);
 
         rightWristX = results[0].pose.rightWrist.x;
         rightWristY = results[0].pose.rightWrist.y;
-        rightX = rightWristX.toFixed(3);
-        rightY = rightWristY.toFixed(3);
-        console.log("Right Wrist X = " + rightX + " Right Wrist Y = " + rightY);
+        console.log("the value of rightWristX is " + rightWristX + "and the value of rightWristY is " + rightWristY);
+     }
     }
-}
